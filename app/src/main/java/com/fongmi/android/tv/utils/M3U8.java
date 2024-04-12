@@ -32,7 +32,7 @@ public class M3U8 {
         try {
             if (TextUtils.isEmpty(url)) return "";
             Response response = OkHttp.newCall(url, getHeader(headers)).execute();
-            if (response.header(HttpHeaders.ACCEPT_RANGES) != null) return "";
+            if (response.header(HttpHeaders.ACCEPT_RANGES) != null && !url.contains(".m3u8")) return "";
             String result = response.body().string();
             Matcher matcher = Pattern.compile("#EXT-X-STREAM-INF(.*)\\n?(.*)").matcher(result.replaceAll("\r\n", "\n"));
             if (matcher.find() && matcher.groupCount() > 1) return get(UriUtil.resolve(url, matcher.group(2)), headers);
@@ -40,8 +40,7 @@ public class M3U8 {
             for (String line : result.split("\n")) sb.append(shouldResolve(line) ? resolve(url, line) : line).append("\n");
             List<String> ads = Sniffer.getRegex(Uri.parse(url));
             return clean(sb.toString(), ads);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Throwable ignored) {
             return "";
         }
     }
@@ -69,7 +68,7 @@ public class M3U8 {
 
     private static Headers getHeader(Map<String, String> headers) {
         Headers.Builder builder = new Headers.Builder();
-        for (Map.Entry<String, String> header : headers.entrySet()) if (header.getKey().equalsIgnoreCase(HttpHeaders.USER_AGENT) || header.getKey().equalsIgnoreCase(HttpHeaders.REFERER) || header.getKey().equalsIgnoreCase(HttpHeaders.COOKIE)) builder.add(header.getKey(), header.getValue());
+        for (Map.Entry<String, String> header : headers.entrySet()) if (HttpHeaders.USER_AGENT.equalsIgnoreCase(header.getKey()) || HttpHeaders.REFERER.equalsIgnoreCase(header.getKey()) || HttpHeaders.COOKIE.equalsIgnoreCase(header.getKey())) builder.add(header.getKey(), header.getValue());
         builder.add(HttpHeaders.RANGE, "bytes=0-");
         return builder.build();
     }

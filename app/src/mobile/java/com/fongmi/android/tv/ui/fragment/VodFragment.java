@@ -3,6 +3,7 @@ package com.fongmi.android.tv.ui.fragment;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +38,6 @@ import com.fongmi.android.tv.model.SiteViewModel;
 import com.fongmi.android.tv.ui.activity.CollectActivity;
 import com.fongmi.android.tv.ui.activity.HistoryActivity;
 import com.fongmi.android.tv.ui.activity.KeepActivity;
-import com.fongmi.android.tv.ui.activity.MainActivity;
 import com.fongmi.android.tv.ui.activity.VideoActivity;
 import com.fongmi.android.tv.ui.adapter.TypeAdapter;
 import com.fongmi.android.tv.ui.base.BaseFragment;
@@ -54,6 +54,7 @@ import com.github.catvod.net.OkHttp;
 import com.github.catvod.utils.Trans;
 import com.google.common.net.HttpHeaders;
 import com.permissionx.guolindev.PermissionX;
+import java.security.SecureRandom;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -161,7 +162,7 @@ public class VodFragment extends BaseFragment implements SiteCallback, FilterCal
     private void updateHot() {
         App.post(mRunnable, 10 * 1000);
         if (mHots.isEmpty() || mHots.size() < 10) return;
-        mBinding.hot.setText(mHots.get(new Random().nextInt(11)));
+        mBinding.hot.setText(mHots.get(new SecureRandom().nextInt(11)));
     }
 
     private Result handle(Result result) {
@@ -216,9 +217,12 @@ public class VodFragment extends BaseFragment implements SiteCallback, FilterCal
     }
 
     private boolean onRefresh(View view) {
-        FileUtil.clearCache(null);
-        if (getActivity() instanceof MainActivity) ((MainActivity) getActivity()).initConfig();
-        App.post(() -> Notify.show(ResUtil.getString(R.string.config_refreshed)), 2000);
+        FileUtil.clearCache(new Callback() {
+            @Override
+            public void success() {
+                setConfig(VodConfig.get().getConfig().json("").save(), ResUtil.getString(R.string.config_refreshed));
+            }
+        });
         return true;
     }
 
@@ -279,27 +283,32 @@ public class VodFragment extends BaseFragment implements SiteCallback, FilterCal
 
     @Override
     public void setConfig(Config config) {
+        setConfig(config, "");
+    }
+
+    private void setConfig(Config config, String success) {
         if (config.getUrl().startsWith("file") && !PermissionX.isGranted(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            PermissionX.init(this).permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE).request((allGranted, grantedList, deniedList) -> load(config));
+            PermissionX.init(this).permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE).request((allGranted, grantedList, deniedList) -> load(config, success));
         } else {
-            load(config);
+            load(config, success);
         }
     }
 
-    private void load(Config config) {
+    private void load(Config config, String success) {
         switch (config.getType()) {
             case 0:
                 Notify.progress(getActivity());
-                VodConfig.load(config, getCallback());
+                VodConfig.load(config, getCallback(success));
                 break;
         }
     }
 
-    private Callback getCallback() {
+    private Callback getCallback(String success) {
         return new Callback() {
             @Override
             public void success() {
                 setConfig();
+                if (!TextUtils.isEmpty(success)) Notify.show(success);
             }
 
             @Override
@@ -383,7 +392,7 @@ public class VodFragment extends BaseFragment implements SiteCallback, FilterCal
         @Override
         public Fragment getItem(int position) {
             Class type = mAdapter.get(position);
-            return TypeFragment.newInstance(getSite().getKey(), type.getTypeId(), type.getStyle(), type.getExtend(true), type.getTypeFlag().equals("1"));
+            return TypeFragment.newInstance(getSite().getKey(), type.getTypeId(), type.getStyle(), type.getExtend(true), "1".equals(type.getTypeFlag()));
         }
 
         @Override

@@ -41,6 +41,7 @@
     <string name="play_duration">进度</string>
     <string name="play_mini_progress">迷你进度</string>
     <string name="play_danmu">弹幕</string>
+    <string name="play_display">屏显</string>
     <string name="play_speed">倍速</string>
     <string name="play_change">换源</string>
     <string name="play_forward">→</string>
@@ -74,15 +75,20 @@
     <string name="setting_player">播放设置</string>
     <string name="setting_danmu">弹幕设置</string>
     <string name="setting_custom">个性设置</string>
+    <string name="setting_config_cache">接口缓存</string>
+    <string name="setting_reset">重置App</string>
     <string name="setting_quality">图片品质</string>
     <string name="setting_size">图片尺寸</string>
     <string name="setting_aggregated_search">聚合搜索</string>
+    <string name="setting_parse_webview">嗅探内核</string>
     <string name="setting_fullscreen_menu_key">全屏菜单键</string>
     <string name="setting_home_menu_key">首页菜单键</string>
     <string name="setting_home_site_lock">首页源锁定</string>
     <string name="setting_incognito">无痕模式</string>
     <string name="setting_small_window_back_key">小窗返回键</string>
     <string name="setting_home_change_config">首页换线</string>
+    <string name="setting_home_ui">首页UI</string>
+    <string name="setting_home_buttons">首页按钮</string>
     <string name="setting_doh">DoH</string>
     <string name="setting_proxy">Proxy</string>
     <string name="setting_cache">缓存</string>
@@ -130,6 +136,8 @@
     <string name="dialog_delete_record">删除全部纪录？</string>
     <string name="dialog_delete_keep">收藏纪录将会全部删除。</string>
     <string name="dialog_delete_history">观看纪录将会全部删除。</string>
+    <string name="dialog_reset_app">重置App?</string>
+    <string name="dialog_reset_app_data">所有数据将会被重置，App即将被关闭.</string>
 
     <!-- Error -->
     <string name="error_config_get">配置取得失败</string>
@@ -147,6 +155,12 @@
     <string name="update_version">发现新版本 <xliff:g name="name">%s</xliff:g></string>
     <string name="update_check">正在检测更新…</string>
     <string name="update_confirm">更新</string>
+
+    <!-- X5 WebView -->
+    <string name="x5webview_title">X5 WebView</string>
+    <string name="x5webview_download_enable">解压X5 WebView并启用?</string>
+    <string name="x5webview_enabled">X5 WebView已启用</string>
+    <string name="x5webview_parsing">X5 WebView嗅探中</string>
 
     <!-- Crash -->
     <string name="crash_info">发生意外错误\n抱歉给您带来不便</string>
@@ -237,12 +251,35 @@
         <item>选项弹窗</item>
         <item>切换站源</item>
         <item>切换线路</item>
+        <item>直播页面</item>
         <item>历史页面</item>
+        <item>搜索页面</item>
+        <item>推送页面</item>
+        <item>收藏页面</item>
+        <item>设置页面</item>
+    </string-array>
+
+    <string-array name="select_parse_webview">
+        <item>系统</item>
+        <item>X5 WebView</item>
     </string-array>
 
     <string-array name="select_home_recommend">
         <item>播放历史</item>
         <item>站点推荐</item>
+    </string-array>
+
+    <string-array name="select_home_ui">
+        <item>简洁风格</item>
+        <item>TVBox风格</item>
+    </string-array>
+
+    <string-array name="select_config_cache">
+        <item>关闭</item>
+        <item>1小时</item>
+        <item>2小时</item>
+        <item>3小时</item>
+        <item>4小时</item>
     </string-array>
 
     <string-array name="select_caption">

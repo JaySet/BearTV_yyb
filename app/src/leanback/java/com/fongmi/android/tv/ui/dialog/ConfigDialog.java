@@ -23,6 +23,7 @@ import com.fongmi.android.tv.server.Server;
 import com.fongmi.android.tv.ui.custom.CustomTextListener;
 import com.fongmi.android.tv.utils.QRCode;
 import com.fongmi.android.tv.utils.ResUtil;
+import com.fongmi.android.tv.utils.UrlUtil;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.permissionx.guolindev.PermissionX;
 
@@ -122,13 +123,13 @@ public class ConfigDialog implements DialogInterface.OnDismissListener {
     }
 
     private void detect(String s) {
-        if (append && s.equalsIgnoreCase("h")) {
+        if (append && "h".equalsIgnoreCase(s)) {
             append = false;
             binding.text.append("ttp://");
-        } else if (append && s.equalsIgnoreCase("f")) {
+        } else if (append && "f".equalsIgnoreCase(s)) {
             append = false;
             binding.text.append("ile://");
-        } else if (append && s.equalsIgnoreCase("a")) {
+        } else if (append && "a".equalsIgnoreCase(s)) {
             append = false;
             binding.text.append("ssets://");
         } else if (s.length() > 1) {
@@ -140,7 +141,7 @@ public class ConfigDialog implements DialogInterface.OnDismissListener {
 
     private void onPositive(View view) {
         String name = binding.name.getText().toString().trim();
-        String text = binding.text.getText().toString().trim();
+        String text = UrlUtil.fixUrl(binding.text.getText().toString().trim());
         if (edit) Config.find(url, type).url(text).update();
         if (text.isEmpty()) Config.delete(url, type);
         if (name.isEmpty()) callback.setConfig(Config.find(text, type));

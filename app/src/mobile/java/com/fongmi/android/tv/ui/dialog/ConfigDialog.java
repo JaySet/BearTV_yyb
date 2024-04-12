@@ -18,6 +18,7 @@ import com.fongmi.android.tv.databinding.DialogConfigBinding;
 import com.fongmi.android.tv.impl.ConfigCallback;
 import com.fongmi.android.tv.ui.custom.CustomTextListener;
 import com.fongmi.android.tv.utils.FileChooser;
+import com.fongmi.android.tv.utils.UrlUtil;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class ConfigDialog {
@@ -104,13 +105,13 @@ public class ConfigDialog {
     }
 
     private void detect(String s) {
-        if (append && s.equalsIgnoreCase("h")) {
+        if (append && "h".equalsIgnoreCase(s)) {
             append = false;
             binding.url.append("ttp://");
-        } else if (append && s.equalsIgnoreCase("f")) {
+        } else if (append && "f".equalsIgnoreCase(s)) {
             append = false;
             binding.url.append("ile://");
-        } else if (append && s.equalsIgnoreCase("a")) {
+        } else if (append && "a".equalsIgnoreCase(s)) {
             append = false;
             binding.url.append("ssets://");
         } else if (s.length() > 1) {
@@ -121,7 +122,7 @@ public class ConfigDialog {
     }
 
     private void onPositive(DialogInterface dialog, int which) {
-        String url = binding.url.getText().toString().trim();
+        String url = UrlUtil.fixUrl(binding.url.getText().toString().trim());
         String name = binding.name.getText().toString().trim();
         if (edit) Config.find(ori, type).url(url).name(name).update();
         if (url.isEmpty()) Config.delete(ori, type);

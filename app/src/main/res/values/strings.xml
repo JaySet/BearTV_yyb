@@ -41,6 +41,7 @@
     <string name="play_duration">Duration</string>
     <string name="play_mini_progress">Mini Progress</string>
     <string name="play_danmu">Danmu</string>
+    <string name="play_display">Display</string>
     <string name="play_speed">Speed</string>
     <string name="play_change">Change</string>
     <string name="play_forward">→</string>
@@ -74,15 +75,20 @@
     <string name="setting_player">Player setting</string>
     <string name="setting_danmu">Danmu setting</string>
     <string name="setting_custom">Custom setting</string>
+    <string name="setting_config_cache">Config cache</string>
+    <string name="setting_reset">Reset app</string>
     <string name="setting_quality">Image quality</string>
     <string name="setting_size">Image size</string>
     <string name="setting_aggregated_search">Aggregated search</string>
+    <string name="setting_parse_webview">Parse webview</string>
     <string name="setting_fullscreen_menu_key">Fullscreen menu key</string>
     <string name="setting_home_menu_key">Home menu key</string>
     <string name="setting_home_site_lock">Home site lock</string>
     <string name="setting_incognito">Incognito mode</string>
     <string name="setting_small_window_back_key">Small window back key</string>
     <string name="setting_home_change_config">Home change config</string>
+    <string name="setting_home_ui">Home ui style</string>
+    <string name="setting_home_buttons">Home buttons</string>
     <string name="setting_doh">DoH</string>
     <string name="setting_proxy">Proxy</string>
     <string name="setting_cache">Cache</string>
@@ -130,6 +136,8 @@
     <string name="dialog_delete_record">Delete all records?</string>
     <string name="dialog_delete_keep">All keep records will be removed.</string>
     <string name="dialog_delete_history">All history records will be removed.</string>
+    <string name="dialog_reset_app">Reset app?</string>
+    <string name="dialog_reset_app_data">All app data will be reset, and app will be shutdown.</string>
 
     <!-- Error -->
     <string name="error_config_get">Configuration get failed</string>
@@ -147,6 +155,12 @@
     <string name="update_version">New version <xliff:g name="name">%s</xliff:g></string>
     <string name="update_check">Checking for updates…</string>
     <string name="update_confirm">Update</string>
+
+    <!-- X5 WebView -->
+    <string name="x5webview_title">X5 WebView</string>
+    <string name="x5webview_download_enable">Unzip X5 WebView and Enable?</string>
+    <string name="x5webview_enabled">X5 WebView Enabled</string>
+    <string name="x5webview_parsing">X5 WebView Parsing</string>
 
     <!-- Crash -->
     <string name="crash_info">An unexpected error occurred.\nSorry for the inconvenience.</string>
@@ -237,7 +251,17 @@
         <item>Select dialog</item>
         <item>Change site</item>
         <item>Change config</item>
+        <item>Live page</item>
         <item>History page</item>
+        <item>Search page</item>
+        <item>Push page</item>
+        <item>Keep page</item>
+        <item>Setting page</item>
+    </string-array>
+
+    <string-array name="select_parse_webview">
+        <item>System</item>
+        <item>X5 WebView</item>
     </string-array>
 
     <string-array name="select_small_window_back_key">
@@ -248,6 +272,19 @@
     <string-array name="select_home_recommend">
         <item>History</item>
         <item>Site recommend</item>
+    </string-array>
+
+    <string-array name="select_home_ui">
+        <item>Simple style</item>
+        <item>TVBox style</item>
+    </string-array>
+
+    <string-array name="select_config_cache">
+        <item>Close</item>
+        <item>1 Hour</item>
+        <item>2 Hour</item>
+        <item>3 Hour</item>
+        <item>4 Hour</item>
     </string-array>
 
     <string-array name="select_caption">

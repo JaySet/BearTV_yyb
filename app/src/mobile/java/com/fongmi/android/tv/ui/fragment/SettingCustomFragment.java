@@ -14,6 +14,7 @@ import com.fongmi.android.tv.databinding.FragmentSettingCustomBinding;
 import com.fongmi.android.tv.event.RefreshEvent;
 import com.fongmi.android.tv.ui.base.BaseFragment;
 import com.fongmi.android.tv.utils.ResUtil;
+import com.fongmi.android.tv.utils.Util;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Locale;
@@ -22,6 +23,8 @@ public class SettingCustomFragment extends BaseFragment {
 
     private FragmentSettingCustomBinding mBinding;
     private String[] size;
+
+    private String[] lang;
 
     public static SettingCustomFragment newInstance() {
         return new SettingCustomFragment();
@@ -44,6 +47,7 @@ public class SettingCustomFragment extends BaseFragment {
         mBinding.incognitoText.setText(getSwitch(Setting.isIncognito()));
         mBinding.aggregatedSearchText.setText(getSwitch(Setting.isAggregatedSearch()));
         mBinding.homeChangeConfigText.setText(getSwitch(Setting.isHomeChangeConfig()));
+        mBinding.languageText.setText((lang = ResUtil.getStringArray(R.array.select_language))[Setting.getLanguage()]);
     }
 
     @Override
@@ -56,6 +60,8 @@ public class SettingCustomFragment extends BaseFragment {
         mBinding.incognito.setOnClickListener(this::setIncognito);
         mBinding.aggregatedSearch.setOnClickListener(this::setAggregatedSearch);
         mBinding.homeChangeConfig.setOnClickListener(this::setHomeChangeConfig);
+        mBinding.language.setOnClickListener(this::setLanguage);
+
     }
 
     private boolean onTitle(View view) {
@@ -109,6 +115,15 @@ public class SettingCustomFragment extends BaseFragment {
         Setting.putHomeChangeConfig(!Setting.isHomeChangeConfig());
         mBinding.homeChangeConfigText.setText(getSwitch(Setting.isHomeChangeConfig()));
         RefreshEvent.config();
+    }
+
+    private void setLanguage(View view) {
+        new MaterialAlertDialogBuilder(getActivity()).setTitle(R.string.setting_language).setNegativeButton(R.string.dialog_negative, null).setSingleChoiceItems(lang, Setting.getLanguage(), (dialog, which) -> {
+            mBinding.languageText.setText(lang[which]);
+            Setting.putLanguage(which);
+            dialog.dismiss();
+            Util.restartApp(getActivity());
+        }).show();
     }
 
 }

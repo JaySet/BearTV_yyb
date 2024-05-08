@@ -80,6 +80,7 @@
     <string name="setting_quality">Image quality</string>
     <string name="setting_size">Image size</string>
     <string name="setting_aggregated_search">Aggregated search</string>
+    <string name="setting_language">Lanuage setting</string>
     <string name="setting_parse_webview">Parse webview</string>
     <string name="setting_fullscreen_menu_key">Fullscreen menu key</string>
     <string name="setting_home_menu_key">Home menu key</string>
@@ -138,6 +139,8 @@
     <string name="dialog_delete_history">All history records will be removed.</string>
     <string name="dialog_reset_app">Reset app?</string>
     <string name="dialog_reset_app_data">All app data will be reset, and app will be shutdown.</string>
+    <string name="dialog_restore">Restore backup data?</string>
+    <string name="dialog_restore_msg">Config, history and setting will be restored.</string>
 
     <!-- Error -->
     <string name="error_config_get">Configuration get failed</string>
@@ -259,6 +262,12 @@
         <item>Setting page</item>
     </string-array>
 
+    <string-array name="select_language">
+        <item>English</item>
+        <item>Simplified Chinese</item>
+        <item>Traditional Chinese</item>
+    </string-array>
+
     <string-array name="select_parse_webview">
         <item>System</item>
         <item>X5 WebView</item>
@@ -281,10 +290,8 @@
 
     <string-array name="select_config_cache">
         <item>Close</item>
-        <item>1 Hour</item>
-        <item>2 Hour</item>
-        <item>3 Hour</item>
-        <item>4 Hour</item>
+        <item>12 Hour</item>
+        <item>24 Hour</item>
     </string-array>
 
     <string-array name="select_caption">

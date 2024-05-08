@@ -33,6 +33,8 @@ public class Config {
     private String json;
     @SerializedName("name")
     private String name;
+    @SerializedName("logo")
+    private String logo;
     @SerializedName("home")
     private String home;
     @SerializedName("parse")
@@ -80,6 +82,14 @@ public class Config {
         this.url = url;
     }
 
+    public String getJson() {
+        return json;
+    }
+
+    public void setJson(String json) {
+        this.json = json;
+    }
+
     public String getName() {
         return name;
     }
@@ -88,12 +98,12 @@ public class Config {
         this.name = name;
     }
 
-    public String getJson() {
-        return json;
+    public String getLogo() {
+        return logo;
     }
 
-    public void setJson(String json) {
-        this.json = json;
+    public void setLogo(String logo) {
+        this.logo = logo;
     }
 
     public String getHome() {
@@ -121,7 +131,7 @@ public class Config {
     }
 
     public boolean isCache() {
-        return getTime() + (long)(3600*1000 * Setting.getConfigCache()) > System.currentTimeMillis();
+        return getTime() + (long)(3600*1000*12 * Setting.getConfigCache()) > System.currentTimeMillis();
     }
 
     public Config type(int type) {
@@ -134,13 +144,18 @@ public class Config {
         return this;
     }
 
+    public Config json(String json) {
+        setJson(json);
+        return this;
+    }
+
     public Config name(String name) {
         setName(name);
         return this;
     }
 
-    public Config json(String json) {
-        setJson(json);
+    public Config logo(String logo) {
+        setLogo(logo);
         return this;
     }
 

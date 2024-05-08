@@ -351,7 +351,8 @@ public class SettingFragment extends BaseFragment implements ConfigCallback, Sit
             @Override
             public void success() {
                 setCacheText();
-                setConfig(VodConfig.get().getConfig().json("").save());
+                Config config = VodConfig.get().getConfig().json("").save();
+                if (!config.isEmpty()) setConfig(config);
             }
         });
         return true;

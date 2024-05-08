@@ -37,39 +37,31 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
                 android:layout_weight="1"
-                android:background="@drawable/selector_item_round"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/hot"
-                    android:layout_width="0dp"
+                    android:id="@+id/site"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
                     android:layout_weight="1"
                     android:singleLine="true"
                     android:textColor="@color/white"
                     android:textSize="14sp"
+                    android:gravity="left"
                     tools:ignore="NestedWeights"
                     tools:text="狂飆" />
-
-                <ImageView
-                    android:id="@+id/search"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_action_search" />
 
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/settingVodHistory"
+                android:id="@+id/search"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginEnd="12dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_setting_vod_history"
-                android:visibility="gone"
-                tools:visibility="visible"/>
+                android:src="@drawable/ic_action_search" />
 
             <ImageView
                 android:id="@+id/keep"
@@ -87,6 +79,7 @@
                 android:src="@drawable/ic_action_history" />
 
         </LinearLayout>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/type"

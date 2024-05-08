@@ -51,6 +51,7 @@ public class Tbs {
 
     public static void init() {
         if (Setting.getParseWebView() == 0) return;
+        if (QbSdk.isTbsCoreInited()) return;
         App.post(() -> tbsInit());
     }
 

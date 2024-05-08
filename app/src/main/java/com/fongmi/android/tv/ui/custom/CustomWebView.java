@@ -14,7 +14,6 @@ import com.tencent.smtt.export.external.interfaces.SslError;
 import com.tencent.smtt.export.external.interfaces.SslErrorHandler;
 import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
 import com.tencent.smtt.export.external.interfaces.WebResourceResponse;
-import com.tencent.smtt.sdk.CookieManager;
 import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebView;
@@ -31,6 +30,7 @@ import com.fongmi.android.tv.bean.Site;
 import com.fongmi.android.tv.impl.ParseCallback;
 import com.fongmi.android.tv.utils.Sniffer;
 import com.github.catvod.crawler.Spider;
+import com.github.catvod.net.OkCookieJar;
 import com.google.common.net.HttpHeaders;
 import com.orhanobut.logger.Logger;
 
@@ -80,6 +80,7 @@ public class CustomWebView extends WebView {
         getSettings().setSupportZoom(true);
         getSettings().setUseWideViewPort(true);
         getSettings().setDatabaseEnabled(true);
+        getSettings().setBlockNetworkImage(true);
         getSettings().setDomStorageEnabled(true);
         getSettings().setJavaScriptEnabled(true);
         getSettings().setBuiltInZoomControls(true);
@@ -89,7 +90,6 @@ public class CustomWebView extends WebView {
         getSettings().setMediaPlaybackRequiresUserGesture(false);
         getSettings().setJavaScriptCanOpenWindowsAutomatically(false);
         getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-        CookieManager.getInstance().setAcceptThirdPartyCookies(this, true);
         setWebViewClient(webViewClient());
         setWebChromeClient(webChromeClient());
     }
@@ -106,13 +106,14 @@ public class CustomWebView extends WebView {
     }
 
     private void start(String url, Map<String, String> headers) {
+        OkCookieJar.setAcceptThirdPartyCookies(this);
         checkHeader(url, headers);
         loadUrl(url, headers);
     }
 
     private void checkHeader(String url, Map<String, String> headers) {
         for (String key : headers.keySet()) {
-            if (HttpHeaders.COOKIE.equalsIgnoreCase(key)) CookieManager.getInstance().setCookie(url, headers.get(key));
+            if (HttpHeaders.COOKIE.equalsIgnoreCase(key)) OkCookieJar.sync(url, headers.get(key));
             if (HttpHeaders.USER_AGENT.equalsIgnoreCase(key)) getSettings().setUserAgentString(headers.get(key));
         }
     }
@@ -127,7 +128,7 @@ public class CustomWebView extends WebView {
                 if (TextUtils.isEmpty(host) || VodConfig.get().getAds().contains(host)) return empty;
                 if (url.contains("challenges.cloudflare.com/cdn-cgi")) App.post(() -> showDialog());
                 if (detect && url.contains("player/?url=")) onParseAdd(headers, url);
-                else if (isVideoFormat(url)) interrupt(headers, url);
+                else if (isVideoFormat(url)) onParseSuccess(headers, url);
                 return super.shouldInterceptRequest(view, request);
             }
 
@@ -207,12 +208,6 @@ public class CustomWebView extends WebView {
         } catch (Exception ignored) {
             return Sniffer.isVideoFormat(url);
         }
-    }
-
-    private void interrupt(Map<String, String> headers, String url) {
-        String cookie = CookieManager.getInstance().getCookie(url);
-        if (cookie != null) headers.put(HttpHeaders.COOKIE, cookie);
-        onParseSuccess(headers, url);
     }
 
     private void onParseAdd(Map<String, String> headers, String url) {
